@@ -31,14 +31,14 @@ describe('featureFlags', () => {
     it('re-renders with the flag value when the provider becomes ready', async () => {
       const { result } = renderHook(() => useBatchAPIFlag(), {
         wrapper: ({ children }) => (
-          <OpenFeatureTestProvider domain={OPEN_FEATURE_DOMAIN} flagValueMap={{ [BATCH_API_FLAG]: true }} delayMs={10}>
+          <OpenFeatureTestProvider domain={OPEN_FEATURE_DOMAIN} flagValueMap={{ [BATCH_API_FLAG]: false }} delayMs={10}>
             {children}
           </OpenFeatureTestProvider>
         ),
       });
-      expect(result.current).toBe(false);
+      expect(result.current).toBe(true);
 
-      await waitFor(() => expect(result.current).toBe(true));
+      await waitFor(() => expect(result.current).toBe(false));
     });
 
     it('re-renders when the flag configuration changes on a ready provider', async () => {
