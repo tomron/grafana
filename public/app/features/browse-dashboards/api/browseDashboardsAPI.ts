@@ -31,7 +31,6 @@ import {
   type FolderListItemDTO,
 } from 'app/types/folders';
 
-import { getDashboardScenePageStateManager } from '../../dashboard-scene/pages/DashboardScenePageStateManager';
 import { deletedDashboardsCache } from '../../search/service/deletedDashboardsCache';
 import { invalidateVariablesAfterFolderDelete } from '../../variables-management/cache';
 import { refetchChildren, refreshParents } from '../state/actions';
@@ -404,6 +403,9 @@ export const browseDashboardsAPI = createApi({
     deleteDashboards: builder.mutation<void, DeleteDashboardsArgs>({
       invalidatesTags: invalidateFolderListOnSuccess,
       queryFn: async ({ dashboardUIDs }) => {
+        const { getDashboardScenePageStateManager } = await import(
+          '../../dashboard-scene/pages/DashboardScenePageStateManager'
+        );
         const pageStateManager = getDashboardScenePageStateManager();
         let deletedCount = 0;
         const deletedDashboardUIDs: string[] = [];
